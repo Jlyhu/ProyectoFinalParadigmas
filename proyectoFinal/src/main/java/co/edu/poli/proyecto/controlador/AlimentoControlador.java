@@ -91,7 +91,9 @@ public class AlimentoControlador {
     @FXML
     private TextField txtPesoGramos;
 
-
+    /**
+     * Método que se ejecuta automáticamente al cargar el FXML
+     */
     @FXML
     public void initialize() {
         configurarTabla();
@@ -101,7 +103,9 @@ public class AlimentoControlador {
         cargarDatosIniciales();
     }
 
-
+    /**
+     * Configura las columnas de la tabla
+     */
     private void configurarTabla() {
         colCodigo.setCellValueFactory(new PropertyValueFactory<>("codigo"));
         colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
@@ -137,7 +141,9 @@ public class AlimentoControlador {
         tblAlimentos.setItems(listaAlimentos);
     }
 
-
+    /**
+     * Carga datos de ejemplo para Proveedores y Empaques
+     */
     private void cargarDatosAuxiliares() {
         // Crear proveedores de ejemplo
         listaProveedores.add(new Proveedor("P001", "NASA Foods", "USA"));
@@ -150,7 +156,9 @@ public class AlimentoControlador {
         listaEmpaques.add(new Empaque("E003", "Lata", "Hermético"));
     }
 
-
+    /**
+     * Configura los ComboBoxes
+     */
     private void configurarComboBoxes() {
         cmbProveedor.setItems(listaProveedores);
         cmbEmpaque.setItems(listaEmpaques);
@@ -179,14 +187,18 @@ public class AlimentoControlador {
         });
     }
 
-
+    /**
+     * Configura eventos para los RadioButtons
+     */
     private void configurarEventosRadioButtons() {
         rbLiquido.setOnAction(e -> actualizarCamposSegunTipo());
         rbLiofilizado.setOnAction(e -> actualizarCamposSegunTipo());
         rbDeshidratado.setOnAction(e -> actualizarCamposSegunTipo());
     }
 
-
+    /**
+     * Actualiza los campos según el tipo de alimento seleccionado
+     */
     private void actualizarCamposSegunTipo() {
         if (rbLiquido.isSelected()) {
             lblAtributo1.setPromptText("Volumen (ml)");
@@ -204,7 +216,9 @@ public class AlimentoControlador {
         }
     }
 
-
+    /**
+     * Carga datos iniciales desde el arreglo del CRUD
+     */
     private void cargarDatosIniciales() {
         listaAlimentos.clear();
         Alimento[] arreglo = crud.read();
@@ -262,7 +276,7 @@ public class AlimentoControlador {
             
             if (resultado.contains("exitosamente")) {
                 mostrarMensaje(resultado);
-                listaAlimentos.add(nuevoAlimento);
+                cargarDatosIniciales(); // Recargar tabla desde el CRUD
                 limpiarCampos(null);
             } else {
                 mostrarError(resultado);
@@ -349,7 +363,7 @@ public class AlimentoControlador {
             Alimento eliminado = crud.delete(alimentoSeleccionado.getCodigo());
             
             if (eliminado != null) {
-                listaAlimentos.remove(alimentoSeleccionado);
+                cargarDatosIniciales(); // Recargar tabla desde el CRUD
                 mostrarMensaje("Alimento eliminado exitosamente");
                 limpiarCampos(null);
                 alimentoSeleccionado = null;
@@ -470,7 +484,9 @@ public class AlimentoControlador {
         }
     }
 
-
+    /**
+     * Valida que los campos obligatorios estén llenos
+     */
     private boolean validarCampos() {
         return !txtCodigo.getText().isEmpty() 
             && !txtNombre.getText().isEmpty()
@@ -481,7 +497,9 @@ public class AlimentoControlador {
             && cmbEmpaque.getValue() != null;
     }
 
-
+    /**
+     * Muestra mensaje de éxito
+     */
     private void mostrarMensaje(String mensaje) {
         lblMensaje.setText(mensaje);
         lblMensaje.setTextFill(Color.GREEN);
@@ -489,7 +507,9 @@ public class AlimentoControlador {
         lblError.setVisible(false);
     }
 
-
+    /**
+     * Muestra mensaje de error
+     */
     private void mostrarError(String error) {
         lblError.setText(error);
         lblError.setTextFill(Color.RED);
