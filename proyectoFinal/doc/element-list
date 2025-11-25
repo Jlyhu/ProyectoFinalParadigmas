@@ -1,0 +1,5 @@
+module:co.edu.poli.proyecto.proyectoFinal
+co.edu.poli.proyecto.controlador
+co.edu.poli.proyecto.modelo
+co.edu.poli.proyecto.servicios
+co.edu.poli.proyecto.vista
